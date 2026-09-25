@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <symbol id="html" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#E44D26"/><path d="M5.5 5.4 3.4 8l2.1 2.6M10.5 5.4 12.6 8l-2.1 2.6M9.3 4.7 6.7 11.3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+  <symbol id="css" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#2965F1"/><path d="M6.7 4.8 5.3 11.2M10.7 4.8 9.3 11.2M4.4 6.5h7.2M4 9.5h7.2" stroke="#fff" stroke-width="1.35" stroke-linecap="round" fill="none"/></symbol>
+  <symbol id="json" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#9B7BE8"/><path d="M6.6 5c-.9 0-1.4.5-1.4 1.3v.6c0 .5-.3.8-.8.8h-.2M6.6 5h.4M6.6 11c-.9 0-1.4-.5-1.4-1.3v-.6c0-.5-.3-.8-.8-.8h-.2M9.4 5c.9 0 1.4.5 1.4 1.3v.6c0 .5.3.8.8.8h.2M9.4 5h-.4M9.4 11c.9 0 1.4-.5 1.4-1.3v-.6c0-.5-.3-.8-.8-.8h-.2" stroke="#fff" stroke-width="1.2" stroke-linecap="round" fill="none"/></symbol>
+  <symbol id="md" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#519ABA"/><path d="M4 10.6V5.4h1.6L8 8l2.4-2.6H12v5.2M12 8.2l-1 2.4-1-2.4" stroke="#fff" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+  <symbol id="xml" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#A65CFF"/><path d="M5.8 5.6 3.6 8l2.2 2.4M10.2 5.6 12.4 8l-2.2 2.4M9.3 4.8 6.7 11.2" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+  <symbol id="txt" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#7A869A"/><path d="M5 5.6h6M5 8h6M5 10.4h4" stroke="#fff" stroke-width="1.35" stroke-linecap="round" fill="none"/></symbol>
+  <symbol id="image-shape" viewBox="0 0 16 16"><circle cx="5.4" cy="5.4" r="1.5" fill="#fff"/><path d="M2.4 13.4 6.2 9.2 8.5 11.6 10.5 9.2 13.6 13.4z" fill="#fff" fill-opacity=".95"/></symbol>
+  <symbol id="svg" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#FFB300"/><use href="#image-shape"/></symbol>
+  <symbol id="png" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#42A5F5"/><use href="#image-shape"/></symbol>
+  <symbol id="jpg" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#FF9800"/><use href="#image-shape"/></symbol>
+  <symbol id="jpeg" viewBox="0 0 16 16"><use href="#jpg"/></symbol>
+  <symbol id="gif" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#AB47BC"/><use href="#image-shape"/></symbol>
+  <symbol id="webp" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#26A69A"/><use href="#image-shape"/></symbol>
+  <symbol id="bmp" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#90A4AE"/><use href="#image-shape"/></symbol>
+  <symbol id="ico" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#78909C"/><use href="#image-shape"/></symbol>
+  <symbol id="avif" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#66BB6A"/><use href="#image-shape"/></symbol>
+  <symbol id="tiff" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#8D6E63"/><use href="#image-shape"/></symbol>
+  <symbol id="tif" viewBox="0 0 16 16"><use href="#tiff"/></symbol>
+  <symbol id="scss" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#CF649A"/><text x="8" y="10.8" fill="#fff" font-size="8" font-weight="800" text-anchor="middle">S</text></symbol>
+  <symbol id="less" viewBox="0 0 16 16"><use href="#scss"/></symbol><symbol id="sass" viewBox="0 0 16 16"><use href="#scss"/></symbol>
+  <symbol id="js" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#F7DF1E"/><text x="8" y="10.3" fill="#1c1c1c" font-size="6.6" font-weight="900" text-anchor="middle">JS</text></symbol>
+  <symbol id="ts" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#3178C6"/><text x="8" y="10.3" fill="#fff" font-size="6.6" font-weight="800" text-anchor="middle">TS</text></symbol>
+  <symbol id="yaml" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#CB171E"/><text x="8" y="10.9" fill="#fff" font-size="8.4" font-weight="800" text-anchor="middle">Y</text></symbol>
+  <symbol id="c" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#5C6BC0"/><text x="8" y="10.8" fill="#fff" font-size="8.4" font-weight="800" text-anchor="middle">C</text></symbol>
+  <symbol id="cpp" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#00599C"/><text x="8" y="10.1" fill="#fff" font-size="5.2" font-weight="800" text-anchor="middle">C++</text></symbol>
+  <symbol id="csharp" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#68217A"/><text x="8" y="10.8" fill="#fff" font-size="7" font-weight="800" text-anchor="middle">C#</text></symbol>
+  <symbol id="java" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#E76F00"/><text x="8" y="10.8" fill="#fff" font-size="8.4" font-weight="800" text-anchor="middle">J</text></symbol>
+  <symbol id="kotlin" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#7F52FF"/><text x="8" y="10.4" fill="#fff" font-size="6.6" font-weight="800" text-anchor="middle">Kt</text></symbol>
+  <symbol id="scala" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#DC322F"/><text x="8" y="10.4" fill="#fff" font-size="6.6" font-weight="800" text-anchor="middle">Sc</text></symbol>
+  <symbol id="go" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#00ADD8"/><text x="8" y="10.3" fill="#fff" font-size="6.6" font-weight="800" text-anchor="middle">Go</text></symbol>
+  <symbol id="rust" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#CE422B"/><text x="8" y="10.4" fill="#fff" font-size="6.6" font-weight="800" text-anchor="middle">Rs</text></symbol>
+  <symbol id="swift" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#F05138"/><text x="8" y="10.4" fill="#fff" font-size="6.6" font-weight="800" text-anchor="middle">Sw</text></symbol>
+  <symbol id="dart" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#0175C2"/><text x="8" y="10.8" fill="#fff" font-size="8.4" font-weight="800" text-anchor="middle">D</text></symbol>
+  <symbol id="python" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#3776AB"/><text x="8" y="10.4" fill="#fff" font-size="6.6" font-weight="800" text-anchor="middle">Py</text></symbol>
+  <symbol id="ruby" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#CC342D"/><text x="8" y="10.4" fill="#fff" font-size="6.6" font-weight="800" text-anchor="middle">Rb</text></symbol>
+  <symbol id="perl" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#39457E"/><text x="8" y="10.4" fill="#fff" font-size="6.6" font-weight="800" text-anchor="middle">Pl</text></symbol>
+  <symbol id="lua" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#2C2D72"/><text x="8" y="10.8" fill="#fff" font-size="8.4" font-weight="800" text-anchor="middle">L</text></symbol>
+  <symbol id="r" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#276DC3"/><text x="8" y="10.8" fill="#fff" font-size="8.4" font-weight="800" text-anchor="middle">R</text></symbol>
+  <symbol id="powershell" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#5391FE"/><text x="8" y="10.4" fill="#fff" font-size="6.6" font-weight="800" text-anchor="middle">PS</text></symbol>
+  <symbol id="vb" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#A5CE00"/><text x="8" y="10.4" fill="#1c1c1c" font-size="6.6" font-weight="800" text-anchor="middle">Vb</text></symbol>
+  <symbol id="sql" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#336791"/><text x="8" y="10.1" fill="#fff" font-size="5.2" font-weight="800" text-anchor="middle">SQL</text></symbol>
+  <symbol id="docker" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#2496ED"/><text x="8" y="10.4" fill="#fff" font-size="6.6" font-weight="800" text-anchor="middle">Dk</text></symbol>
+  <symbol id="php" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#777BB4"/><text x="8" y="10.4" fill="#fff" font-size="5" font-weight="800" text-anchor="middle">php</text></symbol>
+  <symbol id="shell" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#4EAA25"/><text x="8" y="10.3" fill="#fff" font-size="6.4" font-weight="900" text-anchor="middle">&gt;_</text></symbol>
+  <symbol id="batch" viewBox="0 0 16 16"><rect width="16" height="16" rx="4.5" fill="#1F1F1F"/><text x="8" y="10.1" fill="#fff" font-size="5" font-weight="800" text-anchor="middle">BAT</text></symbol>
+</svg>

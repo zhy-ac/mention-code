@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mention Code</title>
+
+<link rel="icon" href="./assets/favicon.svg" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="./libs/codemirror/lib/codemirror.css" />
+<link rel="stylesheet" href="./libs/codemirror/theme/material-darker.css" />
+<link rel="stylesheet" href="./libs/codemirror/theme/eclipse.css" />
+
+<link rel="stylesheet" href="./css/style.css" />
+</head>
+
+<body>
+<div class="app">
+
+  <header class="titlebar">
+    <div class="dots">
+      <span class="dot" style="background:#ff5f57"></span>
+      <span class="dot" style="background:#febc2e"></span>
+      <span class="dot" style="background:#28c840"></span>
+    </div>
+
+    <div class="menubar" id="menubar">
+      <button class="menu-btn" data-menu="file" type="button">文件</button>
+      <button class="menu-btn" data-menu="edit" type="button">编辑</button>
+      <button class="menu-btn" data-menu="view" type="button">视图</button>
+      <button class="menu-btn" data-menu="help" type="button">帮助</button>
+    </div>
+
+    <div class="title-chip" id="titleChip">untitled-project — Mention Code</div>
+
+    <div class="titlebar-right">
+      <button class="theme-toggle" id="themeBtn" type="button" title="切换主题">
+        <span class="theme-icon-spin" id="themeIcon">🌙</span>
+        <span id="themeLabel">深色</span>
+      </button>
+      <button class="icon-pill" id="settingsBtn" type="button" title="设置 (Ctrl+,)">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor"
+             stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.2 5.2l2.1 2.1M16.7 16.7l2.1 2.1M18.8 5.2l-2.1 2.1M7.3 16.7l-2.1 2.1"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="body">
+    <aside class="activitybar">
+      <button class="act-btn active" data-panel="explorer" title="资源管理器" type="button">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+             stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/>
+          <path d="M14 3v5h5"/>
+        </svg>
+      </button>
+      <button class="act-btn" data-panel="search" title="搜索与替换" type="button">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+             stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/>
+        </svg>
+      </button>
+      <button class="act-btn" title="源代码管理" type="button">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+             stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="6.5" cy="6" r="2.5"/><circle cx="6.5" cy="18" r="2.5"/>
+          <circle cx="17.5" cy="9" r="2.5"/>
+          <path d="M6.5 8.5v7M17.5 11.5c0 3.2-3.4 4.2-6.5 4.2"/>
+        </svg>
+      </button>
+      <button class="act-btn" title="运行与调试" type="button">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+             stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="8"/><path d="m10 8.5 5.5 3.5-5.5 3.5z"/>
+        </svg>
+      </button>
+      <button class="act-btn gear" id="settingsBtn2" title="设置" type="button" style="margin-top:auto">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+             stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.2 5.2l2.1 2.1M16.7 16.7l2.1 2.1M18.8 5.2l-2.1 2.1M7.3 16.7l-2.1 2.1"/>
+        </svg>
+      </button>
+    </aside>
+
+    <aside class="sidebar">
+      <div class="sidebar-menubar-slot" id="sidebarMenubarSlot"></div>
+      <div class="panel" id="panel-explorer">
+        <div class="panel-head">
+          <span class="panel-title" id="explorerTitle">资源管理器</span>
+          <button class="icon-btn" id="newFileBtn" title="新建文件" type="button">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                 stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/>
+              <path d="M14 3v5h5"/><path d="M12 12.5v4M10 14.5h4"/>
+            </svg>
+          </button>
+          <button class="icon-btn" id="newFolderBtn" title="新建文件夹" type="button">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                 stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 7a2 2 0 0 1 2-2h3.6l2 2.5H19a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <path d="M12 11.5v4M10 13.5h4"/>
+            </svg>
+          </button>
+        </div>
+        <div class="tree" id="fileTree"></div>
+      </div>
+
+      <div class="panel" id="panel-search" hidden>
+        <div class="panel-head">
+          <span class="panel-title">搜索与替换</span>
+          <button class="icon-btn" id="clearSearchBtn" title="清空" type="button">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                 stroke-width="1.9" stroke-linecap="round">
+              <path d="M6 6l12 12M18 6 6 18"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="search-box">
+          <div class="search-field">
+            <input id="searchInput" type="text" placeholder="搜索文件内容…" spellcheck="false" />
+          </div>
+
+          <div class="search-opts">
+            <button class="opt-btn" id="caseToggle" type="button" title="区分大小写">Aa</button>
+            <button class="opt-btn" id="regexToggle" type="button" title="使用正则表达式">.*</button>
+          </div>
+
+          <div class="search-field replace-field">
+            <input id="replaceInput" type="text" placeholder="替换为…" spellcheck="false" />
+          </div>
+
+          <div class="search-actions">
+            <button class="action-btn" id="replaceOneBtn" type="button">替换</button>
+            <button class="action-btn primary" id="replaceAllBtn" type="button">全部替换</button>
+          </div>
+        </div>
+
+        <div class="search-results" id="searchResults">
+          <div class="empty-hint">
+            输入关键词，搜索整个项目的内容<br />
+            支持 <b>Aa</b> 大小写与 <b>.*</b> 正则<br />
+            并可直接替换
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="layout-resizer" id="layoutResizer" role="separator" aria-label="调整侧边栏宽度" aria-orientation="vertical" tabindex="0"></div>
+
+    <main class="editor-wrap">
+      <div class="tabs" id="tabs"></div>
+
+      <div class="breadcrumb-row">
+        <div class="breadcrumb" id="breadcrumb"></div>
+        <button class="preview-toggle" id="previewToggle" type="button" hidden title="切换预览 (Ctrl+Shift+V)">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="16" rx="2"/>
+            <path d="M12 4v16"/>
+          </svg>
+          <span>预览</span>
+        </button>
+      </div>
+
+      <div class="editor-host">
+        <div class="editor-pane" id="editorPane">
+          <textarea id="code"></textarea>
+
+          <div class="find-widget" id="findWidget" hidden>
+            <div class="find-row">
+              <input id="findInput" type="text" placeholder="查找…" spellcheck="false" />
+              <span class="find-count" id="findCount">0/0</span>
+              <button class="find-btn" id="findPrev" title="上一个 (Shift+Enter)" type="button">↑</button>
+              <button class="find-btn" id="findNext" title="下一个 (Enter)" type="button">↓</button>
+              <button class="find-btn" id="findToggleReplace" title="切换替换" type="button">⌄</button>
+              <button class="find-btn" id="findClose" title="关闭 (Esc)" type="button">✕</button>
+            </div>
+            <div class="find-row" id="findReplaceRow" hidden>
+              <input id="replaceEditorInput" type="text" placeholder="替换为…" spellcheck="false" />
+              <button class="find-btn-text" id="replaceOneInEditorBtn" type="button">替换</button>
+              <button class="find-btn-text primary" id="replaceAllInEditorBtn" type="button">全部</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-pane" id="previewPane" hidden>
+          <div class="preview-body" id="previewBody"></div>
+
+          <div class="html-preview" id="htmlPreview" hidden>
+            <div class="html-toolbar">
+              <span class="ht-name" id="htmlPreviewName">—</span>
+              <span class="ht-badge" id="htmlPreviewSize">—</span>
+              <span class="ht-spacer"></span>
+              <button class="ht-btn on" id="htmlAutoBtn" title="编辑时自动刷新预览" type="button">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 3v5M21 12h-5"/>
+                </svg>
+              </button>
+              <button class="ht-btn" id="htmlReloadBtn" title="刷新预览" type="button">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/>
+                </svg>
+              </button>
+              <button class="ht-btn" id="htmlConsoleBtn" title="显示 / 隐藏控制台" type="button">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="4" width="20" height="16" rx="2"/>
+                  <path d="m6 10 3 2-3 2M12 14h6"/>
+                </svg>
+              </button>
+              <button class="ht-btn" id="htmlExternalBtn" title="在新窗口打开" type="button">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 4h6v6"/><path d="M20 4 10 14"/>
+                  <path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>
+                </svg>
+              </button>
+            </div>
+            <div class="html-frame-wrap">
+              <iframe id="htmlFrame" title="HTML 预览"
+                      sandbox="allow-scripts allow-same-origin allow-modals allow-forms allow-popups allow-popups-to-escape-sandbox allow-downloads"></iframe>
+            </div>
+            <div class="html-console" id="htmlConsole" hidden></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-orb o1"></div>
+        <div class="welcome-orb o2"></div>
+        <div class="welcome-inner">
+          <div class="welcome-content">
+            <div class="welcome-logo">
+              <img src="./assets/favicon.svg" style="width: 64px; height: 64px;" alt="Mention Code" />
+            </div>
+
+            <h1 class="welcome-title">Mention Code</h1>
+            <p class="welcome-sub">轻量 · 圆润 · 顺手的代码编辑器</p>
+
+            <div class="welcome-grid">
+              <div class="welcome-card" data-action="new-project">
+                <div class="wc-icon">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+                       stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 5v14M5 12h14"/>
+                  </svg>
+                </div>
+                <div class="wc-text">
+                  <div class="wc-title">新建项目</div>
+                  <div class="wc-desc">从空白开始</div>
+                </div>
+              </div>
+
+              <div class="welcome-card" data-action="open-file">
+                <div class="wc-icon">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+                       stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/>
+                    <path d="M14 3v5h5"/>
+                  </svg>
+                </div>
+                <div class="wc-text">
+                  <div class="wc-title">打开文件</div>
+                  <div class="wc-desc">Ctrl + O</div>
+                </div>
+              </div>
+
+              <div class="welcome-card" data-action="open-folder">
+                <div class="wc-icon">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+                       stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 7a2 2 0 0 1 2-2h3.6l2 2.5H19a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                  </svg>
+                </div>
+                <div class="wc-text">
+                  <div class="wc-title">打开文件夹</div>
+                  <div class="wc-desc">Ctrl + Shift + O</div>
+                </div>
+              </div>
+
+              <div class="welcome-card" data-action="import-mcp">
+                <div class="wc-icon">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+                       stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3v12M7 10l5 5 5-5"/><path d="M5 19h14"/>
+                  </svg>
+                </div>
+                <div class="wc-text">
+                  <div class="wc-title">导入项目</div>
+                  <div class="wc-desc">.mcp 文件</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="welcome-recent" id="welcomeRecent" hidden>
+              <div class="welcome-section-title">最近打开</div>
+              <div class="recent-list" id="recentList"></div>
+            </div>
+
+            <div class="welcome-footer">
+              <button class="welcome-btn" id="welcomeSettingsBtn" type="button">
+                打开设置
+              </button>
+              <button class="welcome-btn ghost" id="welcomeCloseBtn" type="button">
+                开始编码 →
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <footer class="statusbar">
+    <span class="status-item accent" id="projectChip">⎇ untitled-project</span>
+    <button class="status-item accent" id="statusLang" type="button" title="选择语言模式">
+      <span class="file-icon" id="statusLangIcon"></span>
+      <span id="statusLangText">None</span>
+      <span style="opacity:.6;font-size:10px">▾</span>
+    </button>
+    <span class="status-item" id="statusCursor">行 1，列 1</span>
+    <span class="status-item" id="statusEncoding">UTF-8</span>
+    <span class="status-item" id="statusSpaces">空格: 2</span>
+    <span class="status-item" id="statusCodeCount" title="当前文件非空白字符数">字数: 0</span>
+    <span class="status-item push" id="statusFile">—</span>
+  </footer>
+</div>
+
+<div class="dropdown" id="menu-file" hidden></div>
+<div class="dropdown" id="menu-edit" hidden></div>
+<div class="dropdown" id="menu-view" hidden></div>
+<div class="dropdown" id="menu-help" hidden></div>
+
+<div class="lang-menu" id="langMenu" hidden>
+  <div class="lang-menu-title">选择语言模式</div>
+  <div id="langMenuList"></div>
+</div>
+
+<div class="context-menu" id="contextMenu" hidden>
+  <div class="context-title" id="contextTitle"></div>
+  <div id="contextMenuList"></div>
+</div>
+
+<div class="settings-screen" id="settingsScreen" hidden>
+  <div class="settings-panel">
+    <div class="settings-head">
+      <button class="settings-back" id="settingsBack" type="button" title="返回 (Esc)">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+             stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m15 6-6 6 6 6"/>
+        </svg>
+      </button>
+      <div class="settings-title">设置</div>
+      <button class="settings-reset" id="settingsReset" type="button">恢复默认</button>
+    </div>
+
+    <div class="settings-body">
+      <nav class="settings-nav">
+        <button class="snav-item active" data-sec="appearance" type="button">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor"
+               stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/>
+            <circle cx="8.5" cy="9.5" r="1.2" fill="currentColor" stroke="none"/>
+            <circle cx="12" cy="7.5" r="1.2" fill="currentColor" stroke="none"/>
+            <circle cx="15.5" cy="9.5" r="1.2" fill="currentColor" stroke="none"/>
+            <circle cx="15" cy="14" r="1.2" fill="currentColor" stroke="none"/>
+            <circle cx="9" cy="14" r="1.2" fill="currentColor" stroke="none"/>
+          </svg>
+          外观
+        </button>
+        <button class="snav-item" data-sec="background" type="button">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor"
+               stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="3"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <path d="m21 15-5-5L5 21"/>
+          </svg>
+          背景
+        </button>
+        <button class="snav-item" data-sec="highlight" type="button">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor"
+               stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m8 6-5 6 5 6M16 6l5 6-5 6M14 4l-4 16"/>
+          </svg>
+          代码高亮
+        </button>
+        <button class="snav-item" data-sec="font" type="button">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor"
+               stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 20 9.5 5h1L16 20M6.5 14h8"/>
+            <path d="M18 20V11M18 11c0-1.5 1-2.5 2.5-2.5"/>
+          </svg>
+          字体
+        </button>
+        <button class="snav-item" data-sec="config" type="button">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor"
+               stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v12M7 10l5 5 5-5"/><path d="M5 19h14"/>
+          </svg>
+          配置
+        </button>
+      </nav>
+
+      <div class="settings-content" id="settingsContent">
+        <section class="ssec" data-sec="appearance">
+          <div class="ssec-head">
+            <div class="ssec-title">外观</div>
+            <div class="ssec-desc">调整主题模式与强调色。所有改动会实时生效，并自动保存到本地。</div>
+          </div>
+
+          <div class="sgroup">
+            <div class="srow">
+              <div class="srow-label">
+                <div class="srow-name">主题模式</div>
+                <div class="srow-desc">在深色与浅色之间切换</div>
+              </div>
+              <div class="srow-control">
+                <div class="seg" id="themeSeg">
+                  <button data-val="dark" class="active" type="button">深色</button>
+                  <button data-val="light" type="button">浅色</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="srow">
+              <div class="srow-label">
+                <div class="srow-name">界面语言</div>
+                <div class="srow-desc">选择界面显示语言，或跟随操作系统设置</div>
+              </div>
+              <div class="srow-control">
+                <select class="sselect" id="languageSelect">
+                  <option value="system">跟随系统</option>
+                  <option value="zh-Hans">简体中文</option>
+                  <option value="zh-Hant">繁體中文</option>
+                  <option value="en-US">English (US)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="srow">
+              <div class="srow-label">
+                <div class="srow-name">主题色</div>
+                <div class="srow-desc">按钮、选中项和高亮元素的颜色</div>
+              </div>
+              <div class="srow-control">
+                <div class="color-field">
+                  <input type="color" id="accentColor" value="#4c9aff" />
+                  <input type="text" class="hex-input" id="accentText" value="#4C9AFF" spellcheck="false" maxlength="7" />
+                </div>
+              </div>
+            </div>
+
+            <div class="srow">
+              <div class="srow-label">
+                <div class="srow-name">快速选择</div>
+                <div class="srow-desc">点击色块快速应用常用主题色</div>
+              </div>
+              <div class="srow-control">
+                <div class="swatches" id="accentSwatches"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="ssec" data-sec="background" hidden>
+          <div class="ssec-head">
+            <div class="ssec-title">背景</div>
+            <div class="ssec-desc">自定义编辑器背景颜色、图片与遮罩。</div>
+          </div>
+
+          <div class="sgroup">
+            <div class="srow">
+              <div class="srow-label">
+                <div class="srow-name">编辑器背景色</div>
+                <div class="srow-desc">留空则使用当前主题的默认背景</div>
+              </div>
+              <div class="srow-control">
+                <div class="color-field">
+                  <input type="color" id="editorBgColor" value="#1e1e21" />
+                  <input type="text" class="hex-input" id="editorBgColorText" value="" spellcheck="false" maxlength="7" placeholder="默认" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sgroup">
+            <div class="srow">
+              <div class="srow-label">
+                <div class="srow-name">编辑器背景图片</div>
+                <div class="srow-desc">上传本地图片，或从 URL 加载</div>
+              </div>
+              <div class="srow-control">
+                <div class="btn-row">
+                  <button class="cfg-btn primary" id="editorBgImageUpload" type="button">上传图片</button>
+                  <button class="cfg-btn" id="editorBgImageUrl" type="button">使用 URL</button>
+                  <button class="cfg-btn" id="editorBgImageClear" type="button">清除图片</button>
+                </div>
+              </div>
+            </div>
+            <div class="srow">
+              <div class="srow-label">
+                <div class="srow-name">填充方式</div>
+                <div class="srow-desc">图片如何铺满编辑器</div>
+              </div>
+              <div class="srow-control">
+                <div class="seg" id="editorBgFitSeg">
+                  <button data-val="cover" class="active" type="button">填充</button>
+                  <button data-val="contain" type="button">适应</button>
+                  <button data-val="repeat" type="button">平铺</button>
+                </div>
+              </div>
+            </div>
+            <div class="srow">
+              <div class="srow-label">
+                <div class="srow-name">图片遮罩</div>
+                <div class="srow-desc">在图片上覆盖一层背景色，保证代码可读性</div>
+              </div>
+              <div class="srow-control">
+                <div class="range-wrap">
+                  <input type="range" id="editorBgDim" min="0" max="100" step="1" value="85" />
+                  <span class="range-val" id="editorBgDimVal">85%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sgroup">
+            <div class="srow">
+              <div class="srow-label">
+                <div class="srow-name">快捷操作</div>
+                <div class="srow-desc">一键重置背景相关的设置</div>
+              </div>
+              <div class="srow-control">
+                <div class="btn-row">
+                  <button class="cfg-btn" id="resetBgBtn" type="button">重置背景</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="ssec" data-sec="highlight" hidden>
+          <div class="ssec-head">
+            <div class="ssec-title">代码高亮</div>
+            <div class="ssec-desc">选择预设配色，或逐个调整代码元素的颜色。颜色会同时应用到深色与浅色主题。</div>
+          </div>
+
+          <div class="sgroup">
+            <div class="srow">
+              <div class="srow-label">
+                <div class="srow-name">配色方案</div>
+                <div class="srow-desc">选择一套预设，或使用自定义颜色</div>
+              </div>
+              <div class="srow-control">
+                <select class="sselect" id="hlPreset"></select>
+              </div>
+            </div>
+          </div>
+
+          <div class="hl-grid" id="hlGrid"></div>
+
+          <div class="hl-preview">
+            <pre id="hlPreview"></pre>
+          </div>
+        </section>
+
+        <section class="ssec" data-sec="font" hidden>
+          <div class="ssec-head">
+            <div class="ssec-title">字体</div>
+            <div class="ssec-desc">选择代码区域的等宽字体、字号与行高。</div>
+          </div>
+
+          <div class="sgroup">
+            <div class="srow">
+              <div class="srow-label">
+                <div class="srow-name">字体族</div>
+                <div class="srow-desc">编辑器使用的等宽字体</div>
+              </div>
+              <div class="srow-control">
+                <select class="sselect" id="fontSelect"></select>
+              </div>
+            </div>
+
+            <div class="srow">
+              <div class="srow-label">
+                <div class="srow-name">字号</div>
+                <div class="srow-desc">编辑器文字大小（11 – 20 px）</div>
+              </div>
+              <div class="srow-control">
+                <div class="range-wrap">
+                  <input type="range" id="fontSize" min="11" max="20" step="0.5" value="13.5" />
+                  <span class="range-val" id="fontSizeVal">13.5 px</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="srow">
+              <div class="srow-label">
+                <div class="srow-name">行高</div>
+                <div class="srow-desc">代码行之间的距离（1.2 – 2.4）</div>
+              </div>
+              <div class="srow-control">
+                <div class="range-wrap">
+                  <input type="range" id="lineHeight" min="1.2" max="2.4" step="0.05" value="1.75" />
+                  <span class="range-val" id="lineHeightVal">1.75</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="font-preview" id="fontPreview">
+            const greet = (name) =&gt; `Hello, ${name}!`;
+            function add(a, b) { return a + b; }
+            // 0123456789 ABCDEFGHIJKLM abcdefghijklm
+          </div>
+        </section>
+
+        <section class="ssec" data-sec="config" hidden>
+          <div class="ssec-head">
+            <div class="ssec-title">配置</div>
+            <div class="ssec-desc">导出当前设置以便备份或分享，或从已导出的 JSON 文件恢复设置。</div>
+          </div>
+
+          <div class="sgroup">
+            <div class="srow">
+              <div class="srow-label">
+                <div class="srow-name">导出设置</div>
+                <div class="srow-desc">将主题、主题色、代码高亮、字体、背景等设置保存为 JSON 文件</div>
+              </div>
+              <div class="srow-control">
+                <div class="btn-row">
+                  <button class="cfg-btn primary" id="exportSettingsBtn" type="button">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12 15V3M7 8l5-5 5 5"/><path d="M5 19h14"/>
+                    </svg>
+                    导出设置
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="srow">
+              <div class="srow-label">
+                <div class="srow-name">导入设置</div>
+                <div class="srow-desc">从 JSON 文件恢复设置，会覆盖当前所有设置</div>
+              </div>
+              <div class="srow-control">
+                <div class="btn-row">
+                  <button class="cfg-btn" id="importSettingsBtn" type="button">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12 3v12M7 10l5 5 5-5"/><path d="M5 19h14"/>
+                    </svg>
+                    导入设置
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="srow">
+              <div class="srow-label">
+                <div class="srow-name">重置</div>
+                <div class="srow-desc">恢复所有设置为默认值</div>
+              </div>
+              <div class="srow-control">
+                <div class="btn-row">
+                  <button class="cfg-btn" id="resetSettingsBtn2" type="button">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/>
+                    </svg>
+                    恢复默认
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sgroup">
+            <div class="srow">
+              <div class="srow-label">
+                <div class="srow-name">上次项目</div>
+                <div class="srow-desc">编辑器会自动保存你的工作区到浏览器，下次打开时自动恢复。如需清除，请点击下方按钮。</div>
+              </div>
+              <div class="srow-control">
+                <div class="btn-row">
+                  <button class="cfg-btn" id="forgetWorkspaceBtn2" type="button">
+                    忘记上次项目
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sgroup">
+            <div class="srow">
+              <div class="srow-label">
+                <div class="srow-name">文件系统权限</div>
+                <div class="srow-desc" id="fsStatusDesc">
+                  检测中…
+                </div>
+              </div>
+              <div class="srow-control">
+                <div class="btn-row">
+                  <button class="cfg-btn" id="clearFsHandles" type="button">清除文件句柄</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast-host" id="toastHost"></div>
+
+<script src="./libs/codemirror/lib/codemirror.js"></script>
+<script src="./libs/codemirror/mode/xml/xml.js"></script>
+<script src="./libs/codemirror/mode/javascript/javascript.js"></script>
+<script src="./libs/codemirror/mode/css/css.js"></script>
+<script src="./libs/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+<script src="./libs/codemirror/mode/markdown/markdown.js"></script>
+<script src="./libs/codemirror/mode/clike/clike.js"></script>
+<script src="./libs/codemirror/mode/shell/shell.js"></script>
+<script src="./libs/codemirror/mode/python/python.js"></script>
+<script src="./libs/codemirror/mode/php/php.js"></script>
+<script src="./libs/codemirror/mode/ruby/ruby.js"></script>
+<script src="./libs/codemirror/mode/go/go.js"></script>
+<script src="./libs/codemirror/mode/rust/rust.js"></script>
+<script src="./libs/codemirror/mode/sql/sql.js"></script>
+<script src="./libs/codemirror/mode/yaml/yaml.js"></script>
+<script src="./libs/codemirror/mode/swift/swift.js"></script>
+<script src="./libs/codemirror/mode/lua/lua.js"></script>
+<script src="./libs/codemirror/mode/perl/perl.js"></script>
+<script src="./libs/codemirror/mode/r/r.js"></script>
+<script src="./libs/codemirror/mode/dart/dart.js"></script>
+<script src="./libs/codemirror/mode/powershell/powershell.js"></script>
+<script src="./libs/codemirror/mode/dockerfile/dockerfile.js"></script>
+<script src="./libs/codemirror/mode/vbscript/vbscript.js"></script>
+<script src="./libs/codemirror/addon/edit/closebrackets.js"></script>
+<script src="./libs/codemirror/addon/edit/matchbrackets.js"></script>
+<script src="./libs/codemirror/addon/selection/active-line.js"></script>
+<script src="./libs/marked/lib/marked.umd.js"></script>
+<script src="./libs/dompurify/purify.min.js"></script>
+
+<script src="./languages/language-zh-Hans.js"></script>
+<script src="./languages/language-zh-Hant.js"></script>
+<script src="./languages/language-en-US.js"></script>
+<script src="./js/app.js"></script>
+</body>
+</html>

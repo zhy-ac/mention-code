@@ -1,0 +1,2 @@
+window.MENTION_CODE_LANGUAGES = window.MENTION_CODE_LANGUAGES || {};
+window.MENTION_CODE_LANGUAGES["zh-Hans"] = {};

@@ -1,0 +1,16 @@
+{
+  "name": "minicode",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "MentionCode Team",
+  "license": "MIT",
+  "description": "",
+  "dependencies": {
+    "codemirror": "^5.65.21",
+    "marked": "^11.2.0"
+  }
+}
