@@ -4,7 +4,7 @@ const path = require("path");
 
 const HOST = process.env.HOST || "localhost";
 const PORT = Number.parseInt(process.env.PORT || "7080", 10);
-const ROOT_DIR = path.join(__dirname, "src");
+const ROOT_DIR = path.join(__dirname, "dist");
 
 const MIME_TYPES = {
   ".css": "text/css; charset=utf-8",

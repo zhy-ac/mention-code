@@ -3,14 +3,23 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "npm run build && node server.js",
+    "dev": "vite --host 127.0.0.1 --port 7080",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 7080",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "MentionCode Team",
   "license": "MIT",
-  "description": "",
+  "description": "A lightweight browser-based code editor built with React",
   "dependencies": {
     "codemirror": "^5.65.21",
-    "marked": "^11.2.0"
+    "marked": "^11.2.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.7.0",
+    "vite": "^6.3.5"
   }
 }

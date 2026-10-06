@@ -1,6 +1,6 @@
 # Mention Code
 
-Mention Code 是一个轻量、友好的浏览器代码编辑器。它使用原生 HTML、CSS 和 JavaScript 构建，结合 CodeMirror 提供代码编辑能力，适合直接在浏览器中编辑单个文件或组织一个小型项目。
+Mention Code 是一个轻量、友好的浏览器代码编辑器，使用 React 构建前端界面，并结合 CodeMirror 提供代码编辑能力，适合直接在浏览器中编辑单个文件或组织一个小型项目。编辑器交互逻辑正在从原生 JavaScript 逐步迁移到 React。
 
 ![Preview](./res/Screenshot%201.jpg)
 
@@ -27,45 +27,32 @@ Mention Code 是一个轻量、友好的浏览器代码编辑器。它使用原�
 
 ## 快速开始
 
-### 使用本地静态服务器（推荐）
+### 开发模式
 
-推荐通过本地 HTTP 服务器启动，因为文件系统访问、HTML 预览和部分浏览器 API 在 `file://` 页面下可能受浏览器安全策略限制。
-
-在项目根目录执行：
-
-```bash
-npm start
-```
-
-服务器默认监听 `http://localhost:7080`，然后在浏览器中打开：
-
-<http://localhost:7080>
-
-也可以通过环境变量修改监听地址和端口：
-
-```powershell
-$env:HOST="127.0.0.1"
-$env:PORT="3000"
-npm start
-```
-
-服务器入口为 [`server.js`](./server.js)，根路径会显示 [`src/index.html`](./src/index.html)，其他请求会从 `src` 目录提供静态资源。
-
-### 直接打开
-
-可以直接打开 [`src/index.html`](./src/index.html)，但此方式下部分文件系统功能可能不可用。若要获得完整体验，请使用本地服务器，并优先使用 Chromium 内核浏览器。
-
-## 开发
-
-项目暂时不包含打包流程，修改 `src` 下的文件后刷新浏览器即可看到效果。
-
-安装项目依赖 *（当前暂无所需依赖）*：
+安装依赖后，在项目根目录运行：
 
 ```powershell
 npm install
+npm run dev
 ```
 
-> 依赖主要用于项目中已本地化的 CodeMirror 和 Marked 资源。当前 `package.json` 没有定义开发服务器或构建脚本，因此运行项目不需要执行 `npm run build`。
+开发服务器默认监听 `http://127.0.0.1:7080`，支持热更新。
+
+### 构建和运行
+
+构建生产版本并通过项目内置静态服务器运行：
+
+```powershell
+npm start
+```
+
+默认地址为 `http://localhost:7080`。也可以先运行 `npm run build`，再运行 `node server.js`。生产文件生成在 `dist/` 目录。
+
+应用需要通过 HTTP 打开；文件系统访问、HTML 预览等功能也建议使用 Chromium 内核浏览器。
+
+## 开发
+
+浏览器端已接入 React 和 Vite。迁移期间，React 挂载入口会先渲染现有界面模板，再加载原有编辑器逻辑，以保证迁移基础设施接入时现有功能继续可用；后续可按功能逐步将模板与 DOM 操作迁移为 React 组件和状态。
 
 ## 常用快捷键
 
@@ -101,11 +88,13 @@ npm install
 ```text
 .
 ├── src/
-│   ├── index.html                 应用入口
+│   ├── index.html                 Vite 页面入口
+│   ├── legacy-app.html            迁移期间保留的现有界面模板
 │   ├── css/
 │   │   └── style.css              应用样式
 │   ├── js/
-│   │   └── app.js                 编辑器核心逻辑
+│   │   ├── main.jsx               React 应用入口
+│   │   └── app.js                 迁移期间保留的编辑器逻辑
 │   ├── languages/                 界面语言资源
 │   │   ├── language-en-US.js
 │   │   ├── language-zh-Hans.js
@@ -114,6 +103,7 @@ npm install
 │   └── libs/                      CodeMirror、Marked 等本地依赖
 ├── package.json
 ├── package-lock.json
+├── vite.config.mjs
 └── LICENSE
 ```
 
